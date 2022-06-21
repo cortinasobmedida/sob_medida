@@ -1,26 +1,31 @@
-<h1>Register</h1>
+<.form let={f} for={@changeset} action={Routes.user_registration_path(@conn, :create)} class="flex justify-center items-center h-screen bg-gray-100">
+  <div class="max-w-md w-full bg-white rounded p-6 space-y-4">
+    <%= if @changeset.action do %>
+      <div class="px-4 py-2 bg-red-50 outline-none border border-red-100 rounded text-red-500 font-medium active:scale-95 hover:bg-indigo-400 hover:text-white focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2 disabled:bg-gray-400/80 disabled:shadow-none disabled:cursor-not-allowed transition-colors duration-200">
+        <p>Algo deu errado!</p>
+      </div>
+    <% end %>
 
-<.form let={f} for={@changeset} action={Routes.user_registration_path(@conn, :create)}>
-  <%= if @changeset.action do %>
-    <div class="alert alert-danger">
-      <p>Oops, something went wrong! Please check the errors below.</p>
+    <div class="mb-4">
+      <p class="text-gray-600">Registrar</p>
+      <h2 class="text-xl font-bold">Sob Medida</h2>
     </div>
-  <% end %>
 
-  <%= label f, :email %>
-  <%= email_input f, :email, required: true %>
-  <%= error_tag f, :email %>
+    <%= email_input f, :email, required: true, placeholder: "Email", class: "w-full p-4 text-sm bg-gray-50 focus:outline-none border border-gray-200 rounded text-gray-600" %>
+    <div class="text-red-700 text-sm">
+      <%= error_tag f, :email %>
+    </div>
+    
+    
+    <%= password_input f, :password, required: true, placeholder: "Senha", class: "w-full p-4 text-sm bg-gray-50 focus:outline-none border border-gray-200 rounded text-gray-600"%>
+    <div class="text-red-700 text-sm">
+      <%= error_tag f, :password %>
+    </div>
 
-  <%= label f, :password %>
-  <%= password_input f, :password, required: true %>
-  <%= error_tag f, :password %>
+    <div>
+      <%= submit "Registrar", class: "w-full py-4 bg-blue-600 hover:bg-blue-700 rounded text-sm font-bold text-gray-50 transition duration-200" %>
+    </div>
 
-  <div>
-    <%= submit "Register" %>
+    <%= link "Log in", class: "text-sm text-blue-600 hover:underline", to: Routes.user_session_path(@conn, :new) %>
   </div>
 </.form>
-
-<p>
-  <%= link "Log in", to: Routes.user_session_path(@conn, :new) %> |
-  <%= link "Forgot your password?", to: Routes.user_reset_password_path(@conn, :new) %>
-</p>

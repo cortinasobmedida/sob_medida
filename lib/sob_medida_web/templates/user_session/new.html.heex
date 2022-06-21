@@ -1,27 +1,34 @@
-<h1>Log in</h1>
+<.form let={f} for={@conn} action={Routes.user_session_path(@conn, :create)} as={:user} class="flex justify-center items-center h-screen bg-gray-100">
+  <div class="max-w-md w-full bg-white rounded p-6 space-y-4">
+    <%= if @error_message do %>
+      <div class="px-4 py-2 bg-red-50 outline-none border border-red-100 rounded text-red-500 font-medium active:scale-95 hover:bg-indigo-400 hover:text-white focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2 disabled:bg-gray-400/80 disabled:shadow-none disabled:cursor-not-allowed transition-colors duration-200">
+        <p><%= @error_message %></p>
+      </div>
+    <% end %>
 
-<.form let={f} for={@conn} action={Routes.user_session_path(@conn, :create)} as={:user}>
-  <%= if @error_message do %>
-    <div class="alert alert-danger">
-      <p><%= @error_message %></p>
+    <div class="mb-4">
+      <p class="text-gray-600">Log In</p>
+      <h2 class="text-xl font-bold">Sob Medida</h2>
     </div>
-  <% end %>
 
-  <%= label f, :email %>
-  <%= email_input f, :email, required: true %>
+    <%= email_input f, :email, required: true, placeholder: "Email", class: "w-full p-4 text-sm bg-gray-50 focus:outline-none border border-gray-200 rounded text-gray-600" %>
 
-  <%= label f, :password %>
-  <%= password_input f, :password, required: true %>
+    <%= password_input f, :password, required: true, placeholder: "Senha", class: "w-full p-4 text-sm bg-gray-50 focus:outline-none border border-gray-200 rounded text-gray-600"%>
 
-  <%= label f, :remember_me, "Keep me logged in for 60 days" %>
-  <%= checkbox f, :remember_me %>
+    <div class="flex items-center justify-between">
+      <div class="flex flex-row items-center">
+        <%= checkbox f, :remember_me, class: "focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300 rounded" %>
+        <%= label f, :remember_me, "Me mantenha logado por 60 dias", class: "ml-2 text-sm font-normal text-gray-600" %>
+      </div>
+      <div>
+        <%= link "Forgot your password?", class: "text-sm text-blue-600 hover:underline", to: Routes.user_reset_password_path(@conn, :new) %>
+      </div>
+    </div>
+    
+    <div>
+      <%= submit "Log in", class: "w-full py-4 bg-blue-600 hover:bg-blue-700 rounded text-sm font-bold text-gray-50 transition duration-200" %>
+    </div>
 
-  <div>
-    <%= submit "Log in" %>
+    <%= link "Registrar", class: "text-sm text-blue-600 hover:underline", to: Routes.user_registration_path(@conn, :new) %>
   </div>
 </.form>
-
-<p>
-  <%= link "Register", to: Routes.user_registration_path(@conn, :new) %> |
-  <%= link "Forgot your password?", to: Routes.user_reset_password_path(@conn, :new) %>
-</p>
